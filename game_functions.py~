@@ -105,7 +105,9 @@ def save_high_score(high_score):
 def read_high_score():
     if os.path.exists('./high_score.txt'):
         with open('./high_score.txt', 'r') as f:
-            return int(f.read())
+            s = f.read()
+            print(s)
+            return int(s) if s!='' else 0
     else:
         return 0
 
@@ -125,7 +127,7 @@ def check_keydown_events(event, ai_settings, screen, ship, stats, sb, aliens, bu
     elif event.key == pygame.K_SPACE:
         fire_bullet(ai_settings, screen, ship, bullets)
     elif event.key == pygame.K_q:
-        save_high_score(stats.high_score)
+        save_high_score(str(stats.high_score))
         sys.exit()
     elif event.key == pygame.K_p:
         start_game(ai_settings, screen, ship, stats, sb, aliens, bullets)
@@ -139,7 +141,7 @@ def check_keyup_events(event, ship):
 def check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            save_high_score(stats.high_score)
+            save_high_score(str(stats.high_score))
             sys.exit()
 
         elif event.type == pygame.KEYDOWN:
@@ -169,7 +171,7 @@ def start_game(ai_settings, screen, ship, stats, sb, aliens, bullets):
     create_fleet(ai_settings, screen, ship, aliens)
     ship.center_ship()
 
-def check_play_button(ai_settings, screen, stats, play_button, ship, aliens, bullets, mouse_x, mouse_y):
+def check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, mouse_x, mouse_y):
     button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
     if button_clicked and not stats.game_active:
 

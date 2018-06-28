@@ -60,6 +60,7 @@ def ship_hit(ai_settings, stats, sb, screen, ship, aliens, bullets):
         sleep(0.5)
     else:
         stats.game_active = False
+        save_high_score(str(stats.high_score))
         pygame.mouse.set_visible(True)
 
 def check_aliens_bottom(ai_settings, stats, sb, screen, ship, aliens, bullets):
@@ -105,7 +106,9 @@ def save_high_score(high_score):
 def read_high_score():
     if os.path.exists('./high_score.txt'):
         with open('./high_score.txt', 'r') as f:
-            return int(f.read())
+            s = f.read()
+            print(s)
+            return int(s) if s!='' else 0
     else:
         return 0
 
@@ -169,7 +172,7 @@ def start_game(ai_settings, screen, ship, stats, sb, aliens, bullets):
     create_fleet(ai_settings, screen, ship, aliens)
     ship.center_ship()
 
-def check_play_button(ai_settings, screen, stats, play_button, ship, aliens, bullets, mouse_x, mouse_y):
+def check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, mouse_x, mouse_y):
     button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
     if button_clicked and not stats.game_active:
 
